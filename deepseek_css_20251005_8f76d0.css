@@ -1,0 +1,327 @@
+/* DASHBOARD DE PEDIDOS */
+.dashboard-section {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    border-left: 4px solid var(--primary);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: #666;
+    font-weight: 600;
+}
+
+.filters-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-select {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--light);
+    border-radius: 8px;
+    background: var(--white);
+    font-size: 0.9rem;
+    min-width: 150px;
+}
+
+.pedidos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.pedidos-table th,
+.pedidos-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--light);
+    vertical-align: top;
+}
+
+.pedidos-table th {
+    background: var(--light);
+    font-weight: 700;
+    color: var(--primary);
+    position: sticky;
+    top: 0;
+}
+
+.pedidos-table tr:hover {
+    background: #f8f9fa;
+}
+
+.estado-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.estado-pendiente_pago {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.estado-pago_confirmado {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.estado-en_preparacion {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.estado-enviado {
+    background: #cce7ff;
+    color: #004085;
+    border: 1px solid #b3d7ff;
+}
+
+.estado-entregado {
+    background: #d1f7e9;
+    color: #0f5132;
+    border: 1px solid #b8f0db;
+}
+
+.estado-cancelado {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.productos-list {
+    max-height: 120px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+}
+
+.producto-item {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.producto-item:last-child {
+    border-bottom: none;
+}
+
+.acciones-pedido {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.btn-estado {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-estado:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.btn-warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.btn-info {
+    background: #17a2b8;
+    color: white;
+}
+
+.fecha-pedido {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.total-pedido {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.cliente-info {
+    font-size: 0.9rem;
+}
+
+.cliente-nombre {
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.cliente-contacto {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.modal-detalle {
+    max-width: 900px;
+}
+
+.detalle-pedido {
+    background: var(--light);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.detalle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.detalle-cliente {
+    flex: 1;
+}
+
+.detalle-estado {
+    text-align: right;
+}
+
+.detalle-productos {
+    margin-bottom: 1.5rem;
+}
+
+.detalle-producto {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--white);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.detalle-producto-info {
+    flex: 1;
+}
+
+.detalle-producto-precio {
+    text-align: right;
+    font-weight: 600;
+}
+
+.detalle-total {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+    color: var(--white);
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.historial-estados {
+    margin-top: 1.5rem;
+}
+
+.historial-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--light);
+}
+
+.historial-item:last-child {
+    border-bottom: none;
+}
+
+.historial-fecha {
+    font-size: 0.8rem;
+    color: #666;
+    min-width: 120px;
+}
+
+.historial-estado {
+    margin-left: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pedidos-table {
+        font-size: 0.8rem;
+    }
+    
+    .pedidos-table th,
+    .pedidos-table td {
+        padding: 0.5rem;
+    }
+    
+    .filters-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-select {
+        min-width: auto;
+    }
+    
+    .acciones-pedido {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .detalle-header {
+        flex-direction: column;
+        text-align: left;
+    }
+    
+    .detalle-estado {
+        text-align: left;
+    }
+}

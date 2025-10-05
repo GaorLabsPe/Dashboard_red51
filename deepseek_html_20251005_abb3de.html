@@ -1,0 +1,86 @@
+<div id="pedidosPanel" style="display:none;">
+    <div class="dashboard-section">
+        <div class="dashboard-header">
+            <h2>Gestión de Pedidos</h2>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <span id="adminEmailPedidos" style="color: #666; font-size: 0.9rem;"></span>
+                <button class="btn-secondary" onclick="mostrarGestionProductos()">Gestionar Productos</button>
+                <button class="btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalPedidos">0</div>
+                <div class="stat-label">Total Pedidos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pedidosPendientes">0</div>
+                <div class="stat-label">Pendientes de Pago</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pedidosConfirmados">0</div>
+                <div class="stat-label">Pago Confirmado</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pedidosEntregados">0</div>
+                <div class="stat-label">Entregados</div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-row">
+            <select class="filter-select" id="filtroEstado" onchange="filtrarPedidos()">
+                <option value="todos">Todos los estados</option>
+                <option value="pendiente_pago">Pendiente de Pago</option>
+                <option value="pago_confirmado">Pago Confirmado</option>
+                <option value="en_preparacion">En Preparación</option>
+                <option value="enviado">Enviado</option>
+                <option value="entregado">Entregado</option>
+                <option value="cancelado">Cancelado</option>
+            </select>
+            
+            <select class="filter-select" id="filtroFecha" onchange="filtrarPedidos()">
+                <option value="todos">Todas las fechas</option>
+                <option value="hoy">Hoy</option>
+                <option value="semana">Esta semana</option>
+                <option value="mes">Este mes</option>
+            </select>
+            
+            <input type="text" class="filter-select" id="buscarPedido" placeholder="Buscar por nombre o teléfono..." onkeyup="filtrarPedidos()">
+        </div>
+
+        <!-- Tabla de pedidos -->
+        <div style="overflow-x: auto;">
+            <table class="pedidos-table">
+                <thead>
+                    <tr>
+                        <th>N° Pedido</th>
+                        <th>Cliente</th>
+                        <th>Productos</th>
+                        <th>Total</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="pedidosTableBody"></tbody>
+            </table>
+        </div>
+        <div id="loadingPedidos" class="loading" style="display:none;">Cargando pedidos...</div>
+    </div>
+</div>
+
+<!-- Modal para detalle de pedido -->
+<div id="detallePedidoModal" class="modal">
+    <div class="modal-content modal-detalle">
+        <div class="modal-header">
+            <h2>Detalle del Pedido</h2>
+            <button class="close-btn" onclick="cerrarDetallePedido()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="detallePedidoContent"></div>
+        </div>
+    </div>
+</div>
