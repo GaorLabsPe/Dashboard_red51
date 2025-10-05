@@ -1,86 +1,285 @@
-<div id="pedidosPanel" style="display:none;">
-    <div class="dashboard-section">
-        <div class="dashboard-header">
-            <h2>Gestión de Pedidos</h2>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <span id="adminEmailPedidos" style="color: #666; font-size: 0.9rem;"></span>
-                <button class="btn-secondary" onclick="mostrarGestionProductos()">Gestionar Productos</button>
-                <button class="btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red51 Technology - Tienda Online</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div>
+                <div class="logo" onclick="mostrarTienda()">
+                    <span class="logo-red">Red</span><span class="logo-number">51</span>
+                </div>
+                <span class="logo-subtitle">TECHNOLOGY</span>
             </div>
-        </div>
+            <div class="nav-links">
+                <button class="nav-btn" onclick="mostrarTienda()" id="btnTienda">Tienda</button>
+                <button class="nav-btn" onclick="mostrarAdmin()" id="btnAdmin">Admin</button>
+                <button class="cart-btn" onclick="abrirCarrito()">
+                    Carrito
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
 
-        <!-- Estadísticas -->
-        <div class="stats-grid" id="statsGrid">
-            <div class="stat-card">
-                <div class="stat-number" id="totalPedidos">0</div>
-                <div class="stat-label">Total Pedidos</div>
+    <!-- VISTA TIENDA -->
+    <div id="tiendaView">
+        <section class="hero">
+            <div>
+                <h1>Tecnologia de Vanguardia</h1>
+                <p>Los mejores productos de tecnologia y electronica con las marcas mas reconocidas del mercado</p>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="pedidosPendientes">0</div>
-                <div class="stat-label">Pendientes de Pago</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="pedidosConfirmados">0</div>
-                <div class="stat-label">Pago Confirmado</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="pedidosEntregados">0</div>
-                <div class="stat-label">Entregados</div>
-            </div>
-        </div>
+        </section>
 
-        <!-- Filtros -->
-        <div class="filters-row">
-            <select class="filter-select" id="filtroEstado" onchange="filtrarPedidos()">
-                <option value="todos">Todos los estados</option>
-                <option value="pendiente_pago">Pendiente de Pago</option>
-                <option value="pago_confirmado">Pago Confirmado</option>
-                <option value="en_preparacion">En Preparación</option>
-                <option value="enviado">Enviado</option>
-                <option value="entregado">Entregado</option>
-                <option value="cancelado">Cancelado</option>
-            </select>
-            
-            <select class="filter-select" id="filtroFecha" onchange="filtrarPedidos()">
-                <option value="todos">Todas las fechas</option>
-                <option value="hoy">Hoy</option>
-                <option value="semana">Esta semana</option>
-                <option value="mes">Este mes</option>
-            </select>
-            
-            <input type="text" class="filter-select" id="buscarPedido" placeholder="Buscar por nombre o teléfono..." onkeyup="filtrarPedidos()">
-        </div>
-
-        <!-- Tabla de pedidos -->
-        <div style="overflow-x: auto;">
-            <table class="pedidos-table">
-                <thead>
-                    <tr>
-                        <th>N° Pedido</th>
-                        <th>Cliente</th>
-                        <th>Productos</th>
-                        <th>Total</th>
-                        <th>Fecha</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="pedidosTableBody"></tbody>
-            </table>
-        </div>
-        <div id="loadingPedidos" class="loading" style="display:none;">Cargando pedidos...</div>
+        <main class="container">
+            <section class="products-section">
+                <div class="category-filter" id="categoryFilter"></div>
+                <h2 class="section-title">Nuestros Productos</h2>
+                <div class="products-grid" id="productsGrid"></div>
+                <div id="loadingProducts" class="loading" style="display:none;">Cargando productos...</div>
+            </section>
+        </main>
     </div>
-</div>
 
-<!-- Modal para detalle de pedido -->
-<div id="detallePedidoModal" class="modal">
-    <div class="modal-content modal-detalle">
-        <div class="modal-header">
-            <h2>Detalle del Pedido</h2>
-            <button class="close-btn" onclick="cerrarDetallePedido()">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div id="detallePedidoContent"></div>
+    <!-- VISTA ADMINISTRADOR -->
+    <div id="adminView" style="display:none;">
+        <main class="container">
+            <!-- SECCIÓN LOGIN -->
+            <div id="loginSection" class="login-section">
+                <h2 style="margin-bottom: 1rem; color: var(--primary);">Acceso Administrador</h2>
+                <div class="auth-info">
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                        Para acceder al panel de administracion, primero debes crear un usuario en tu proyecto de Supabase:
+                    </p>
+                    <ol style="color: #666; font-size: 0.9rem; margin-left: 1.5rem;">
+                        <li>Ve a tu proyecto: <a href="https://zejzrujrspeoszpfbjce.supabase.co" target="_blank" style="color: var(--secondary);">Supabase Dashboard</a></li>
+                        <li>Menu: Authentication → Users</li>
+                        <li>Click "Add user" → "Create new user"</li>
+                        <li>Ingresa email y contraseña</li>
+                        <li>Confirma el email del usuario</li>
+                        <li>Vuelve aqui e inicia sesion</li>
+                    </ol>
+                </div>
+                <form id="loginForm" onsubmit="iniciarSesion(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="emailLogin" required placeholder="admin@red51.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="passwordLogin" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Iniciar Sesion</button>
+                    <div id="loginError" style="margin-top: 1rem; padding: 1rem; border-radius: 8px; display: none; background: #f8d7da; color: #721c24;"></div>
+                </form>
+            </div>
+
+            <!-- PANEL ADMINISTRADOR - PRODUCTOS -->
+            <div id="adminPanel" style="display:none;">
+                <div class="admin-section">
+                    <div class="admin-header">
+                        <h2>Gestion de Productos</h2>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <span id="adminEmail" style="color: #666; font-size: 0.9rem;"></span>
+                            <button class="btn-secondary" onclick="abrirModalProducto()">Agregar Producto</button>
+                            <button class="btn-danger" onclick="cerrarSesion()">Cerrar Sesion</button>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Icon</th>
+                                    <th>Nombre</th>
+                                    <th>Marca</th>
+                                    <th>Categoria</th>
+                                    <th>Precio</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminProductsTable"></tbody>
+                        </table>
+                    </div>
+                    <div id="loadingAdmin" class="loading" style="display:none;">Cargando...</div>
+                </div>
+            </div>
+
+            <!-- PANEL ADMINISTRADOR - PEDIDOS -->
+            <div id="pedidosPanel" style="display:none;">
+                <div class="dashboard-section">
+                    <div class="dashboard-header">
+                        <h2>Gestión de Pedidos</h2>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <span id="adminEmailPedidos" style="color: #666; font-size: 0.9rem;"></span>
+                            <button class="btn-secondary" onclick="mostrarGestionProductos()">Gestionar Productos</button>
+                            <button class="btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+                        </div>
+                    </div>
+
+                    <!-- Estadísticas -->
+                    <div class="stats-grid" id="statsGrid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalPedidos">0</div>
+                            <div class="stat-label">Total Pedidos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="pedidosPendientes">0</div>
+                            <div class="stat-label">Pendientes de Pago</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="pedidosConfirmados">0</div>
+                            <div class="stat-label">Pago Confirmado</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="pedidosEntregados">0</div>
+                            <div class="stat-label">Entregados</div>
+                        </div>
+                    </div>
+
+                    <!-- Filtros -->
+                    <div class="filters-row">
+                        <select class="filter-select" id="filtroEstado" onchange="filtrarPedidos()">
+                            <option value="todos">Todos los estados</option>
+                            <option value="pendiente_pago">Pendiente de Pago</option>
+                            <option value="pago_confirmado">Pago Confirmado</option>
+                            <option value="en_preparacion">En Preparación</option>
+                            <option value="enviado">Enviado</option>
+                            <option value="entregado">Entregado</option>
+                            <option value="cancelado">Cancelado</option>
+                        </select>
+                        
+                        <select class="filter-select" id="filtroFecha" onchange="filtrarPedidos()">
+                            <option value="todos">Todas las fechas</option>
+                            <option value="hoy">Hoy</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mes</option>
+                        </select>
+                        
+                        <input type="text" class="filter-select" id="buscarPedido" placeholder="Buscar por nombre o teléfono..." onkeyup="filtrarPedidos()">
+                    </div>
+
+                    <!-- Tabla de pedidos -->
+                    <div style="overflow-x: auto;">
+                        <table class="pedidos-table">
+                            <thead>
+                                <tr>
+                                    <th>N° Pedido</th>
+                                    <th>Cliente</th>
+                                    <th>Productos</th>
+                                    <th>Total</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pedidosTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div id="loadingPedidos" class="loading" style="display:none;">Cargando pedidos...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL CARRITO -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tu Carrito</h2>
+                <button class="close-btn" onclick="cerrarCarrito()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartContent"></div>
+                <div id="successMessage" class="success-message">
+                    <div class="success-icon">✓</div>
+                    <h3>Pedido Realizado con Exito</h3>
+                    <p>Hemos recibido tu pedido. Te contactaremos pronto por WhatsApp para coordinar el pago y la entrega.</p>
+                    <button class="btn-primary" onclick="cerrarYLimpiar()">Continuar Comprando</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+    <!-- MODAL PRODUCTO (AGREGAR/EDITAR) -->
+    <div id="productoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="productoModalTitle">Agregar Producto</h2>
+                <button class="close-btn" onclick="cerrarModalProducto()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="productoForm" onsubmit="guardarProducto(event)">
+                    <input type="hidden" id="productoId">
+                    <div class="form-group">
+                        <label>Nombre del Producto</label>
+                        <input type="text" id="productoNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Marca</label>
+                        <input type="text" id="productoMarca" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select id="productoCategoria" required>
+                            <option value="moviles">Smartphones & Tablets</option>
+                            <option value="audio">Audio</option>
+                            <option value="hogar">Hogar Inteligente</option>
+                            <option value="computacion">Computacion</option>
+                            <option value="entretenimiento">Entretenimiento</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripcion</label>
+                        <textarea id="productoDescripcion" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio (S/)</label>
+                        <input type="number" id="productoPrecio" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Icono (Emoji)</label>
+                        <input type="text" id="productoIcon" maxlength="2" placeholder="📱">
+                    </div>
+                    <div class="form-group">
+                        <label>Etiqueta (Opcional)</label>
+                        <input type="text" id="productoBadge" placeholder="Nuevo, Popular, Oferta...">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="productoActivo" checked> Producto activo
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-primary">Guardar Producto</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETALLE PEDIDO -->
+    <div id="detallePedidoModal" class="modal">
+        <div class="modal-content modal-detalle">
+            <div class="modal-header">
+                <h2>Detalle del Pedido</h2>
+                <button class="close-btn" onclick="cerrarDetallePedido()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="detallePedidoContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-logo">Red51 TECHNOLOGY</div>
+        <p>2025 Red51 Technology. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>
